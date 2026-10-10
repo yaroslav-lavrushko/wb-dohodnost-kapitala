@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wb-capital"
+version = "1.0.0"
+description = "Доходность вложенного капитала по товарам Wildberries: P&L по артикулу, деньги в остатках, вердикты и отчёт Excel + HTML"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Proprietary — all rights reserved"}
+authors = [{name = "Yaroslav Lavrushko"}]
+dependencies = ["pandas>=2.0", "openpyxl>=3.1"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+wb-capital = "wb_capital.cli:main"
+
+[tool.setuptools]
+packages = ["wb_capital"]
+
+[tool.setuptools.package-data]
+wb_capital = ["*.json"]

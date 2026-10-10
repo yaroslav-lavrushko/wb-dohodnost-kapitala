@@ -1,0 +1,63 @@
+{
+ "items": [
+  {
+   "article": "Тест бальзам 30 мл",
+   "verdict": "нет данных об остатке",
+   "profit": 6333.37,
+   "capital": 0.0,
+   "return_pct": null,
+   "stock_days": null,
+   "excess": null
+  },
+  {
+   "article": "Тест крем 50 мл",
+   "verdict": "развивать",
+   "profit": 49781.13,
+   "capital": 44550.0,
+   "return_pct": 1456.64,
+   "stock_days": 20.79,
+   "excess": 0.0
+  },
+  {
+   "article": "Тест маска 100 мл",
+   "verdict": "выводить",
+   "profit": -4339.31,
+   "capital": 322080.0,
+   "return_pct": -17.56,
+   "stock_days": 4697.0,
+   "excess": 315908.57
+  },
+  {
+   "article": "Тест сыворотка 15 мл",
+   "verdict": "нет продаж в периоде",
+   "profit": -279.49,
+   "capital": 30800.0,
+   "return_pct": -11.83,
+   "stock_days": null,
+   "excess": 30800.0
+  },
+  {
+   "article": "Тест тоник 200 мл",
+   "verdict": "сократить закупку",
+   "profit": 32346.87,
+   "capital": 215250.0,
+   "return_pct": 195.9,
+   "stock_days": 200.9,
+   "excess": 118821.43
+  },
+  {
+   "article": "Тест шампунь 250 мл",
+   "verdict": "держать",
+   "profit": 2897.43,
+   "capital": 158730.0,
+   "return_pct": 23.8,
+   "stock_days": 561.17,
+   "excess": 133272.86
+  }
+ ],
+ "locations": {
+  "Склады маркетплейса": 411860.0,
+  "Склад Подольск": 239700.0,
+  "Склад Москва": 119850.0
+ }
+}

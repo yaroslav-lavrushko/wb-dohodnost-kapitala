@@ -1,0 +1,14 @@
+# реальные выгрузки и отчёты никогда не коммитятся
+*.xlsx
+*.zip
+!tests/fixtures/**/*.xlsx
+!demo/data/*.xlsx
+out/
+runs/
+_site/
+.leakwords
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.venv/
+.DS_Store

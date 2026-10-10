@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Доходность капитала WB</title>
+<meta name="description" content="Доходность вложенного капитала по товарам Wildberries — расчёт прямо в браузере, файлы не покидают компьютер.">
+<style>
+:root{--plane:#f4f4f1;--surface:#fff;--surface-2:#fafaf8;--surface-3:#f0f0eb;--ink:#0b0b0b;--ink-2:#4d4c49;--ink-3:#73716c;--ink-4:#9a988f;
+--line:#e6e5df;--line-2:#d6d5ce;--accent:#2a78d6;--accent-s:rgba(42,120,214,.10);--good:#0a7d0a;--good-s:rgba(12,163,12,.10);--crit:#b02a2a;--crit-s:rgba(208,59,59,.10);
+--warn:#9a6100;--warn-s:rgba(217,138,0,.12);--shadow:0 1px 2px rgba(0,0,0,.05),0 10px 30px rgba(0,0,0,.08);
+--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,"Helvetica Neue",Arial,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--plane:#0e0f11;--surface:#16171a;--surface-2:#1b1c20;--surface-3:#23252a;--ink:#f5f5f3;--ink-2:#c6c8cc;--ink-3:#8e9196;--ink-4:#6b6e74;
+--line:#26282d;--line-2:#34373d;--accent:#3f8ff0;--accent-s:rgba(63,143,240,.15);--good:#3ccf3c;--good-s:rgba(12,163,12,.16);--crit:#ff7a7a;--crit-s:rgba(224,82,82,.15);
+--warn:#fab219;--warn-s:rgba(250,178,25,.14);--shadow:0 1px 2px rgba(0,0,0,.4),0 10px 34px rgba(0,0,0,.4);color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--plane);color:var(--ink);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 80px}
+h1{font-size:clamp(26px,4vw,38px);letter-spacing:-.025em;line-height:1.1;margin:0 0 10px}h2{font-size:18px;margin:0 0 10px;letter-spacing:-.01em}
+.lead{font-size:17px;color:var(--ink-2);max-width:760px;margin:0}
+.priv{display:inline-flex;gap:8px;align-items:center;margin-top:14px;font-size:13.5px;background:var(--good-s);color:var(--good);border-radius:99px;padding:6px 14px;font-weight:600}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-top:22px}
+.drop{border:2px dashed var(--line-2);border-radius:14px;padding:28px 16px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-s)}
+.drop b{display:block;font-size:16px;margin-bottom:4px}.drop span{font-size:13px;color:var(--ink-3)}
+.btn{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);padding:10px 16px;border-radius:11px;cursor:pointer;text-decoration:none;display:inline-flex;gap:8px;align-items:center}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn:disabled{opacity:.45;cursor:not-allowed}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+ul.files{list-style:none;margin:14px 0 0;padding:0;font-size:13.5px}ul.files li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+ul.files li span:last-child{color:var(--ink-3);white-space:nowrap}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.opts label{font-size:12.5px;color:var(--ink-3);font-weight:600}.opts input{width:100%;font:inherit;font-size:14px;margin-top:4px;padding:8px 10px;border:1px solid var(--line-2);border-radius:10px;background:var(--surface);color:var(--ink)}
+.need{margin:0;padding-left:18px;font-size:14px;color:var(--ink-2)}.need li{margin:8px 0}.need b{color:var(--ink)}
+.status{margin-top:14px;font-size:13.5px;color:var(--ink-2);min-height:20px}
+.log{white-space:pre-wrap;font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:10px;max-height:220px;overflow:auto;display:none}
+.err{background:var(--crit-s);color:var(--crit);border-radius:10px;padding:10px 12px;margin-top:10px;display:none;white-space:pre-wrap;font-size:13.5px}
+.result{margin-top:22px;display:none}.result iframe{width:100%;height:1600px;border:1px solid var(--line);border-radius:16px;background:var(--plane)}
+.spin{width:14px;height:14px;border:2px solid var(--line-2);border-top-color:var(--accent);border-radius:50%;display:inline-block;animation:sp 1s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+footer{margin-top:40px;font-size:13px;color:var(--ink-3)}footer a{color:inherit}
+@media (max-width:860px){.grid{grid-template-columns:1fr}.opts{grid-template-columns:1fr}.result iframe{height:2400px}}
+</style></head><body><div class="wrap">
+<h1>Доходность вложенного капитала по товарам WB</h1>
+<p class="lead">Какие товары возвращают вложенные деньги, а какие замораживают их на складе. По каждому товару — прибыль, деньги в остатках на всех складах, годовая доходность и решение: развивать, сократить закупку, держать или выводить.</p>
+<div class="priv">🔒 Расчёт идёт прямо в браузере — файлы не покидают ваш компьютер</div>
+
+<div class="grid">
+ <div class="card">
+  <h2>1. Добавьте выгрузки</h2>
+  <label class="drop" id="drop" tabindex="0"><input type="file" id="file" multiple accept=".xlsx,.zip" hidden>
+   <b>Перетащите файлы сюда</b><span>или нажмите, чтобы выбрать · xlsx и zip · тип файла программа определит сама</span></label>
+  <ul class="files" id="files"></ul>
+  <div class="opts">
+   <label>Сценарий: комиссия выше на, п.п.<input id="pp" type="number" min="0" max="20" step="0.5" value="3"></label>
+   <label>Дата снимка остатков (если её нет в имени файла)<input id="sdate" type="date"></label>
+  </div>
+  <div class="btns">
+   <button class="btn primary" id="run" type="button" disabled>Посчитать</button>
+   <button class="btn" id="demo" type="button">Показать на демо-данных</button>
+   <button class="btn" id="clear" type="button">Очистить</button>
+  </div>
+  <div class="status" id="status"></div>
+  <div class="err" id="err"></div>
+  <div class="log" id="log"></div>
+ </div>
+ <div class="card">
+  <h2>Что нужно</h2>
+  <ol class="need">
+   <li><b>Еженедельные детализации WB</b> за период — личный кабинет WB → Финансовые отчёты → детализация (xlsx или zip, сколько угодно недель).</li>
+   <li><b>Каталог себестоимости по поставкам</b> — лист «Каталог (себестоимость)» с колонками «Номер поставки», «Название товара», «Себестоимость». <a href="template/каталог-себестоимости-шаблон.xlsx" download>Шаблон</a>.</li>
+   <li><b>Остатки</b> — любые и сколько угодно: отчёт WB «Остатки по складам», выгрузка своего склада или фулфилмента. Дата снимка — в имени файла (например, «остатки-2026-09-27.xlsx») или в колонке «Дата».</li>
+  </ol>
+  <p class="small" style="font-size:13px;color:var(--ink-3)">Не хватает колонок — программа скажет, каких именно. Первый запуск загружает расчётное ядро (~15 МБ), дальше быстрее.</p>
+ </div>
+</div>
+
+<div class="result" id="result">
+ <div class="btns" style="margin-bottom:12px">
+  <a class="btn primary" id="dlx" download="доходность-капитала.xlsx">⬇ Excel</a>
+  <a class="btn" id="dlh" download="доходность-капитала.html">⬇ HTML-отчёт</a>
+ </div>
+ <iframe id="frame" title="Отчёт"></iframe>
+</div>
+
+<footer>Готовый пример отчёта: <a href="demo/">демо-магазин «Северная косметика»</a> (данные выдуманы) ·
+<a href="https://github.com/yaroslav-lavrushko/wb-dohodnost-kapitala">исходный код</a> · © Ярослав Лаврушко, все права защищены.</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+<script>
+var files=[];  // {name, data:Uint8Array}
+var py=null, loading=null;
+function $(id){return document.getElementById(id);}
+function status(t,busy){$("status").innerHTML=(busy?'<span class="spin"></span>':"")+t;}
+function render(){
+ $("files").innerHTML=files.map(function(f){return "<li><span>"+f.name.replace(/[<>&]/g,"")+"</span><span>"+(f.data.length/1024).toFixed(0)+" КБ</span></li>";}).join("");
+ $("run").disabled=!files.length;}
+async function addFiles(list){for(const f of list){const b=new Uint8Array(await f.arrayBuffer());files=files.filter(x=>x.name!==f.name);files.push({name:f.name,data:b});}render();}
+$("file").onchange=e=>addFiles(e.target.files);
+["dragenter","dragover"].forEach(ev=>$("drop").addEventListener(ev,e=>{e.preventDefault();$("drop").classList.add("over");}));
+["dragleave","drop"].forEach(ev=>$("drop").addEventListener(ev,e=>{e.preventDefault();$("drop").classList.remove("over");}));
+$("drop").addEventListener("drop",e=>addFiles(e.dataTransfer.files));
+$("drop").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" ")$("file").click();});
+$("clear").onclick=()=>{files=[];render();$("result").style.display="none";$("err").style.display="none";$("log").style.display="none";status("");};
+
+async function boot(){
+ if(py)return py; if(loading)return loading;
+ loading=(async()=>{
+  status("Загружаю расчётное ядро (один раз, ~15 МБ)…",true);
+  const p=await loadPyodide();
+  await p.loadPackage(["pandas","micropip"]);
+  const mp=p.pyimport("micropip");
+  const base=new URL("wheels/",location.href).href;
+  const wl=await (await fetch("wheels/index.json")).json();
+  await mp.install(wl.map(w=>base+w),{deps:false});
+  const z=await (await fetch("wb_capital.zip")).arrayBuffer();
+  p.unpackArchive(z,"zip",{extractDir:"/lib/wbapp"});
+  p.runPython("import sys; sys.path.insert(0,'/lib/wbapp'); import wb_capital");
+  py=p; return p;})();
+ return loading;}
+
+async function calc(list,label){
+ $("err").style.display="none";$("result").style.display="none";
+ try{
+  const p=await boot();
+  status("Считаю…",true);
+  p.runPython("import shutil,os\nfor d in ('/in','/out'):\n    shutil.rmtree(d,ignore_errors=True); os.makedirs(d)");
+  for(const f of list){p.FS.writeFile("/in/"+f.name,f.data);}
+  const pp=parseFloat($("pp").value||"0"), sd=$("sdate").value||"";
+  p.globals.set("PP",pp);p.globals.set("SD",sd);p.globals.set("LABEL",label);
+  const out=p.runPython(`
+import json
+from wb_capital import Options, run
+logs=[]
+r=run(Options(inputs=['/in'], commission_pp=PP, stock_date=SD, label=LABEL), '/out', log=logs.append)
+json.dumps({'ok': r['ok'], 'log': logs, 'errors': r['errors']})`);
+  const res=JSON.parse(out);
+  $("log").textContent=res.log.join("\n");$("log").style.display="block";
+  if(!res.ok){$("err").textContent="Входные данные не подходят:\n– "+res.errors.join("\n– ");$("err").style.display="block";status("Отчёт не собран — см. ниже, каких данных не хватает.");return;}
+  const html=p.FS.readFile("/out/доходность-капитала.html",{encoding:"utf8"});
+  const xlsx=p.FS.readFile("/out/доходность-капитала.xlsx");
+  $("frame").srcdoc=html;
+  $("dlh").href=URL.createObjectURL(new Blob([html],{type:"text/html"}));
+  $("dlx").href=URL.createObjectURL(new Blob([xlsx],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}));
+  $("result").style.display="block";status("Готово. Отчёт ниже, его можно скачать.");
+  $("result").scrollIntoView({behavior:"smooth"});
+ }catch(e){console.error(e);$("err").textContent="Ошибка: "+e;$("err").style.display="block";status("");}}
+$("run").onclick=()=>calc(files,"");
+$("demo").onclick=async()=>{
+ status("Загружаю демо-данные…",true);
+ const names=await (await fetch("demo-data/index.json")).json();
+ const list=[];for(const n of names){const b=new Uint8Array(await (await fetch("demo-data/"+encodeURIComponent(n))).arrayBuffer());list.push({name:n,data:b});}
+ calc(list,"Демо-магазин «Северная косметика» · выдуманные данные");};
+</script></body></html>
