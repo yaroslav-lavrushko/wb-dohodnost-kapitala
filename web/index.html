@@ -17,7 +17,7 @@ h1{font-size:clamp(26px,4vw,38px);letter-spacing:-.025em;line-height:1.1;margin:
 .priv{display:inline-flex;gap:8px;align-items:center;margin-top:14px;font-size:13.5px;background:var(--good-s);color:var(--good);border-radius:99px;padding:6px 14px;font-weight:600}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
 .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-top:22px}
-.drop{border:2px dashed var(--line-2);border-radius:14px;padding:28px 16px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.drop{display:block;border:2px dashed var(--line-2);border-radius:14px;padding:28px 16px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
 .drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-s)}
 .drop b{display:block;font-size:16px;margin-bottom:4px}.drop span{font-size:13px;color:var(--ink-3)}
 .btn{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);padding:10px 16px;border-radius:11px;cursor:pointer;text-decoration:none;display:inline-flex;gap:8px;align-items:center}
@@ -67,7 +67,7 @@ footer{margin-top:40px;font-size:13px;color:var(--ink-3)}footer a{color:inherit}
    <li><b>Каталог себестоимости по поставкам</b> — лист «Каталог (себестоимость)» с колонками «Номер поставки», «Название товара», «Себестоимость». <a href="template/каталог-себестоимости-шаблон.xlsx" download>Шаблон</a>.</li>
    <li><b>Остатки</b> — любые и сколько угодно: отчёт WB «Остатки по складам», выгрузка своего склада или фулфилмента. Дата снимка — в имени файла (например, «остатки-2026-09-27.xlsx») или в колонке «Дата».</li>
   </ol>
-  <p class="small" style="font-size:13px;color:var(--ink-3)">Не хватает колонок — программа скажет, каких именно. Первый запуск загружает расчётное ядро (~15 МБ), дальше быстрее.</p>
+  <p class="small" style="font-size:13px;color:var(--ink-3)">Не хватает колонок — программа скажет, каких именно. Первый запуск загружает Python для браузера (Pyodide, ~15 МБ, с открытого CDN) и расчётное ядро — только код, ваши файлы никуда не отправляются.</p>
  </div>
 </div>
 
@@ -131,7 +131,7 @@ logs=[]
 r=run(Options(inputs=['/in'], commission_pp=PP, stock_date=SD, label=LABEL), '/out', log=logs.append)
 json.dumps({'ok': r['ok'], 'log': logs, 'errors': r['errors']})`);
   const res=JSON.parse(out);
-  $("log").textContent=res.log.join("\n");$("log").style.display="block";
+  $("log").textContent=res.log.filter(l=>!l.startsWith("→")).join("\n");$("log").style.display="block";
   if(!res.ok){$("err").textContent="Входные данные не подходят:\n– "+res.errors.join("\n– ");$("err").style.display="block";status("Отчёт не собран — см. ниже, каких данных не хватает.");return;}
   const html=p.FS.readFile("/out/доходность-капитала.html",{encoding:"utf8"});
   const xlsx=p.FS.readFile("/out/доходность-капитала.xlsx");

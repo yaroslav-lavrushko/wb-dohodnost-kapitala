@@ -177,7 +177,7 @@ box-shadow:var(--shadow);overflow-y:auto;padding:22px 20px 40px;border-left:1px 
  <div class="card"><div class="row"><h2>Доходность × оборачиваемость</h2><span class="small">клик по кругу — карточка товара</span></div>
   <div class="chips" id="chips"></div>
   <div id="quad"><div class="tip" id="tip"></div></div>
-  <div class="small" style="margin-top:6px">Размер круга — выручка. Пунктирный контур — тестовый остаток. Ось доходности логарифмическая.</div></div>
+  <div class="small" style="margin-top:6px">Размер круга — выручка за период. Ось доходности логарифмическая<span id="testnote">; пунктирный контур — остаток, подставленный для проверки (не из файлов)</span>.</div></div>
  <div class="card"><h2>Где лежат деньги</h2><div class="small" style="margin-top:4px">Деньги по себестоимости, цвет — вердикт товара</div><div id="locs"></div></div>
 </div>
 <div class="card"><div class="row"><h2>Все товары</h2><input class="search" id="q" type="search" placeholder="Найти товар…" aria-label="Поиск товара"></div>
@@ -223,6 +223,7 @@ var R=[];function recalc(){R=IT.map(calc);}
 /* шапка */
 function head(){
  document.getElementById("sub").textContent=(M.label?M.label+" · ":"")+"период продаж "+M.period+" ("+M.days+" дн.) · прибыль "+(M.tax?"после налога "+M.tax+"%":"до налога")+" · доходность — % "+C.bl+" на деньги в товаре по себестоимости";
+ if(!M.test)document.getElementById("testnote").remove();
  if(M.test)document.getElementById("badge").innerHTML='<span class="badge">есть тестовые остатки</span>';
  var w=document.getElementById("warns"); if(M.warnings.length)w.insertAdjacentHTML("afterbegin",'<div class="warn">⚠ '+M.warnings.map(esc).join("<br>⚠ ")+"</div>");
  document.getElementById("prov").innerHTML=M.provenance.concat([
